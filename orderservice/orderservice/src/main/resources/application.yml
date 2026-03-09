@@ -1,0 +1,23 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: orderservice
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/authenticator
+    username: root
+    password: root@39
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  jwt:
+    secret: mySuperSecretKey1234567890
