@@ -55,7 +55,7 @@ InstaBuy is a microservices-based application comprising four main services: Aut
 
 ### 4. Payment Service
 - **Description**: Manages payment processing and transaction handling.
-- **Port**: `8084`
+- **Port**: `8085`
 - **Database**: SQLite
 - **Dependencies**:
   - Spring Boot
