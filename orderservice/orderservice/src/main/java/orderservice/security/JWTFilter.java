@@ -22,26 +22,41 @@ public class JWTFilter extends OncePerRequestFilter {
     private String SECRET;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String token = authHeader.substring(7);
 
-            // ✅ Updated for jjwt 0.11.x
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(SECRET.getBytes())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
+            try {
 
-            Long userId = Long.parseLong(claims.getSubject()); // JWT sub = userId
+                Claims claims = Jwts.parserBuilder()
+                        .setSigningKey(SECRET.getBytes())
+                        .build()
+                        .parseClaimsJws(token)
+                        .getBody();
 
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(userId, null, Collections.emptyList());
-            SecurityContextHolder.getContext().setAuthentication(auth);
+                // ✅ Extract userId from JWT claims
+                Long userId = Long.valueOf(claims.get("userId").toString());
+
+                // Store userId in SecurityContext
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                userId,
+                                null,
+                                Collections.emptyList()
+                        );
+
+                SecurityContextHolder.getContext().setAuthentication(auth);
+
+            } catch (Exception e) {
+                System.out.println("Invalid JWT: " + e.getMessage());
+            }
         }
 
         filterChain.doFilter(request, response);

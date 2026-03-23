@@ -17,10 +17,48 @@ public class OrderController {
     }
 
     @PostMapping("/place")
-    public OrderResponseDTO placeOrder(@RequestBody OrderRequestDTO request){
+    public OrderResponseDTO placeOrder(@RequestBody OrderRequestDTO request) {
 
-        Long userId = (Long) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = (Long) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
         return orderService.placeOrder(request, userId);
     }
+
+    @GetMapping("/{orderId}")
+    public OrderResponseDTO getOrderDetails(@PathVariable Long orderId) {
+
+        Long userId = (Long) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return orderService.getOrderDetails(orderId, userId);
+    }
+
+    @PutMapping("/{orderId}/cancel")
+    public String cancelOrder(@PathVariable Long orderId) {
+
+        Long userId = (Long) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return orderService.cancelOrder(orderId, userId);
+    }
+
+    // 3️⃣ Track Order Status
+    @GetMapping("/{orderId}/status")
+    public String trackStatus(@PathVariable Long orderId) {
+
+        Long userId = (Long) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        return orderService.getOrderStatus(orderId, userId);
+    }
 }
+

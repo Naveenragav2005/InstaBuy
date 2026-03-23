@@ -15,4 +15,4 @@ jpa:
   database-platform: org.hibernate.dialect.MySQL8Dialect
 
 jwt:
-  secret: mySuperSecretKey1234567890
+  secret: ZxvB6P1L9rQ8wH3nF4kT2mV7aJ5sD0gYabcdefgha

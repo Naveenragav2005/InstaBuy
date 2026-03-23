@@ -19,5 +19,5 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-  jwt:
-    secret: mySuperSecretKey1234567890
+jwt:
+  secret: ZxvB6P1L9rQ8wH3nF4kT2mV7aJ5sD0gYabcdefgha

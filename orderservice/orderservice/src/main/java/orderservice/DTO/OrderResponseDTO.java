@@ -6,6 +6,14 @@ public class OrderResponseDTO {
     private int quantity;
     private String status;
 
+    public OrderResponseDTO() {
+    }
+
+    public OrderResponseDTO(Long orderId, String status) {
+        this.orderId = orderId;
+        this.status = status;
+    }
+
     public Long getOrderId() {
         return orderId;
     }
