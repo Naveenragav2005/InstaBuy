@@ -3,10 +3,11 @@ package authentication.controller;
 import authentication.model.Users;
 import authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 public class UserController {
@@ -22,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Users user) {
+    public Map<String, String> login(@RequestBody Users user) {
 
-        return service.verify(user);
+        return Map.of("token", service.verify(user));
     }
 }

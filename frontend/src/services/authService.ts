@@ -10,10 +10,10 @@ interface AuthResponse {
 }
 
 export const login = async (data: AuthRequest): Promise<AuthResponse> => {
-  const response = await axiosInstance.post<AuthResponse>('/auth/login', data);
+  const response = await axiosInstance.post<AuthResponse>('/login', data);
   return response.data;
 };
 
 export const register = async (data: AuthRequest): Promise<void> => {
-  await axiosInstance.post('/auth/register', data);
+  await axiosInstance.post('/register', data);
 };

@@ -3,7 +3,7 @@ package orderservice.client;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "inventory", url = "http://localhost:8083")
+@FeignClient(name = "inventory", url = "http://localhost:8084")
 public interface InventoryClient {
 
     @GetMapping("/inventory/check")

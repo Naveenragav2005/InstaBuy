@@ -1,18 +1,28 @@
 import React, { useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 
 const Dashboard: React.FC = () => {
   const { token, logout } = useAuth();
+  const { totalItems } = useCart();
 
-  // Decode JWT to extract username
-  const username = useMemo(() => {
-    if (!token) return 'User';
+  const { username, role } = useMemo(() => {
+    if (!token) {
+      return { username: 'User', role: null };
+    }
+
     try {
-      const payload = token.split('.')[1];
-      const decoded = JSON.parse(atob(payload));
-      return decoded.sub || decoded.username || 'User';
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const pad = base64.length % 4;
+      const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
+      const decoded = JSON.parse(atob(padded));
+      return {
+        username: decoded.sub || decoded.username || 'User',
+        role: decoded.role || null,
+      };
     } catch {
-      return 'User';
+      return { username: 'User', role: null };
     }
   }, [token]);
 
@@ -65,19 +75,6 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="stats-grid">
-          <div className="stat-card">
-            <div className="stat-icon orders-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 01-8 0" />
-              </svg>
-            </div>
-            <div className="stat-info">
-              <span className="stat-value">0</span>
-              <span className="stat-label">Orders</span>
-            </div>
-          </div>
 
           <div className="stat-card">
             <div className="stat-icon wishlist-icon">
@@ -100,7 +97,7 @@ const Dashboard: React.FC = () => {
               </svg>
             </div>
             <div className="stat-info">
-              <span className="stat-value">0</span>
+              <span className="stat-value">{totalItems}</span>
               <span className="stat-label">Cart Items</span>
             </div>
           </div>
@@ -121,7 +118,7 @@ const Dashboard: React.FC = () => {
         <div className="quick-actions">
           <h2>Quick Actions</h2>
           <div className="actions-grid">
-            <button className="action-card">
+            <button className="action-card" onClick={() => window.location.href = '/shop'}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -135,6 +132,16 @@ const Dashboard: React.FC = () => {
               </svg>
               <span>Payment Methods</span>
             </button>
+            {(role === 'ROLE_ADMIN' || role === 'ADMIN') && (
+              <button className="action-card" onClick={() => window.location.href = '/admin'}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <line x1="3" y1="9" x2="21" y2="9" />
+                  <line x1="9" y1="21" x2="9" y2="9" />
+                </svg>
+                <span>Manage Products (Admin)</span>
+              </button>
+            )}
             <button className="action-card">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="28" height="28">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />

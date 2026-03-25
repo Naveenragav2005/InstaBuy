@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/authenticator
     username: root
-    password: root@39
+    password: pass@123
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -21,3 +21,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 jwt:
   secret: ZxvB6P1L9rQ8wH3nF4kT2mV7aJ5sD0gYabcdefgha
+
+app:
+  frontend-origin: ${FRONTEND_ORIGIN:http://localhost:3000}

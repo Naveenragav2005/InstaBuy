@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
-
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:5173"}, allowCredentials = "true")
 public class AdminController {
 
     private InventoryService inventoryService;
@@ -27,6 +27,13 @@ public class AdminController {
     @GetMapping("/all")
     public List<Product> getAllProducts() {
         return inventoryService.getAllProducts();
+    }
+
+    @PutMapping("/products/{productCode}")
+    public Product updateProduct(
+            @PathVariable Long productCode,
+            @RequestBody Product product) {
+        return inventoryService.updateProduct(productCode, product);
     }
 
 

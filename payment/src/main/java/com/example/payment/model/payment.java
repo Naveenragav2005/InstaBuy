@@ -19,6 +19,12 @@ public class payment {
 
     private String transactionId;
 
+    // Razorpay-specific fields
+    private String razorpayOrderId;
+    private String razorpayPaymentId;
+
+    // --- Getters & Setters ---
+
     public Long getId() {
         return id;
     }
@@ -65,5 +71,21 @@ public class payment {
 
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    public String getRazorpayOrderId() {
+        return razorpayOrderId;
+    }
+
+    public void setRazorpayOrderId(String razorpayOrderId) {
+        this.razorpayOrderId = razorpayOrderId;
+    }
+
+    public String getRazorpayPaymentId() {
+        return razorpayPaymentId;
+    }
+
+    public void setRazorpayPaymentId(String razorpayPaymentId) {
+        this.razorpayPaymentId = razorpayPaymentId;
     }
 }

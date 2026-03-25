@@ -23,6 +23,19 @@ public class InventoryService {
         return productRepo.findAll();
     }
 
+    public Product updateProduct(Long productCode, Product updatedProduct) {
+        Product existingProduct = productRepo.findById(productCode)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        if (updatedProduct.getName() != null) existingProduct.setName(updatedProduct.getName());
+        if (updatedProduct.getDescription() != null) existingProduct.setDescription(updatedProduct.getDescription());
+        if (updatedProduct.getImageUrl() != null) existingProduct.setImageUrl(updatedProduct.getImageUrl());
+        if (updatedProduct.getPrice() != null) existingProduct.setPrice(updatedProduct.getPrice());
+        if (updatedProduct.getStock() != null) existingProduct.setStock(updatedProduct.getStock());
+
+        return productRepo.save(existingProduct);
+    }
+
     public Product updateStock(Long productCode, int stock) {
 
         Product product = productRepo.findById(productCode)
@@ -52,7 +65,11 @@ public class InventoryService {
         Product product = productRepo.findById(productCode)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        product.setStock(product.getStock() - quantity);
+        int newStock = product.getStock() - quantity;
+        if (newStock < 0) {
+            newStock = 0;
+        }
+        product.setStock(newStock);
 
         productRepo.save(product);
     }
