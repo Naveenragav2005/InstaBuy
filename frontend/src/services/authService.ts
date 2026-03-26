@@ -14,6 +14,10 @@ export const login = async (data: AuthRequest): Promise<AuthResponse> => {
   return response.data;
 };
 
-export const register = async (data: AuthRequest): Promise<void> => {
+interface RegisterRequest extends AuthRequest {
+  role?: string;
+}
+
+export const register = async (data: RegisterRequest): Promise<void> => {
   await axiosInstance.post('/register', data);
 };

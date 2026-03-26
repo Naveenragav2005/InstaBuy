@@ -7,6 +7,7 @@ const Signup: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('ROLE_USER');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,7 +39,7 @@ const Signup: React.FC = () => {
     setLoading(true);
 
     try {
-      await register({ username, password });
+      await register({ username, password, role });
       setSuccess('Account created successfully! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err: any) {
@@ -163,6 +164,38 @@ const Signup: React.FC = () => {
                 required
                 autoComplete="new-password"
               />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="signup-role">Account Type</label>
+            <div className="input-wrapper">
+              <svg className="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <select
+                id="signup-role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '0.875rem 1rem 0.875rem 2.875rem',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                  color: 'white',
+                  fontSize: '1rem',
+                  appearance: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="ROLE_USER" style={{ color: 'black' }}>Standard User</option>
+                <option value="ROLE_ADMIN" style={{ color: 'black' }}>Administrator</option>
+              </select>
             </div>
           </div>
 
