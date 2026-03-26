@@ -14,7 +14,7 @@ public interface OrderClient {
      * Update order status with user Authorization token.
      * Used during frontend-initiated payment verification flows.
      */
-    @PutMapping("/admin/orders/{id}/status")
+    @PutMapping("/internal/orders/{id}/status")
     String updateStatus(
             @PathVariable Long id,
             @RequestParam String status,
@@ -27,7 +27,7 @@ public interface OrderClient {
      * This calls the same Order Service endpoint — the Order Service must allow
      * internal (non-authenticated) calls or accept a service token.
      */
-    @PutMapping("/admin/orders/{id}/status")
+    @PutMapping("/internal/orders/{id}/status")
     String updateStatusInternal(
             @PathVariable Long id,
             @RequestParam String status
